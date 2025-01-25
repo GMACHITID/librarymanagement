@@ -1,5 +1,4 @@
 import libsystem
-import json
 
 def display_menu():
     print("\nLibrary Management System")
@@ -15,6 +14,7 @@ def display_librarian_menu():
     print("3. List All Books")
     print("4. Save Library Data")
     print("5. Back to Main Menu")
+    print("6. Remove patron!!!")
 
 
 def display_patron_menu():
@@ -40,7 +40,7 @@ def main():
                 display_librarian_menu()
                 librarian_choice = input("Enter your choice: ")
 
-                if librarian_choice == "1":  # Add Book
+                if librarian_choice == "1":
                     book_type = input("Enter book type (PhysicalBook/EBook/AudioBook): ")
                     title = input("Enter book title: ")
                     author = input("Enter author name: ")
@@ -62,7 +62,7 @@ def main():
                     library.add_book(book)
                     print(f"Book '{title}' added to the library.")
 
-                elif librarian_choice == "2":  # Remove Book
+                elif librarian_choice == "2":
                     isbn = input("Enter the ISBN of the book to remove: ")
                     try:
                         library.remove_book(isbn)
@@ -70,16 +70,22 @@ def main():
                     except Exception as e:
                         print(e)
 
-                elif librarian_choice == "3":  # List All Books
+                elif librarian_choice == "3":
                     books = library.list_books()
                     print("\nBooks in Library:")
                     print("\n".join(books) if books else "No books available.")
 
-                elif librarian_choice == "4":  # Save Library Data
+                elif librarian_choice == "4":
                     library.save_to_file()
 
                 elif librarian_choice == "5":
                     break
+                elif librarian_choice == "6":
+                    patron_id = input("Enter the ID of the patron to remove: ")
+                    try:
+                        library.remove_patron(patron_id)
+                    except ValueError as e:
+                        print(e)
 
                 else:
                     print("Invalid choice! Please try again.")

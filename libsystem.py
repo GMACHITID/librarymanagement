@@ -113,10 +113,14 @@ class Library:
     def to_dict(self):
         return {"books": [book.to_dict() for book in self._books]}
 
-    def save_to_file(self, filename="library_data.json"):
-        with open(filename, "w") as f:
-            json.dump(self.to_dict(), f, indent=4)
-        print(f"Library data saved to {filename}")
+    def save_to_file(self, library_file="library.json", patron_file="patrons.json"):
+        with open(library_file, "w", encoding="utf-8") as f:
+            books_data = [book.to_dict() for book in self._books]
+            json.dump({"books": books_data}, f, indent=4)
+
+        with open(patron_file, "w", encoding="utf-8") as f:
+            patrons_data = [{"name": patron.name, "patron_id": patron.patron_id} for patron in self._patrons]
+            json.dump({"patrons": patrons_data}, f, indent=4)
 
     @classmethod
     def load_from_file(cls, filename="library.json"):
@@ -139,6 +143,15 @@ class Library:
         except (FileNotFoundError, json.JSONDecodeError):  # Handle missing or invalid file
             print("No valid library data found. Initializing an empty library.")
             return cls()
+    def remove_patron(self, patron_id):
+        for patron in self._patrons:
+            if patron.patron_id == patron_id:
+                self._patrons.remove(patron)
+                self.save_to_file()
+                print(f"Patron with ID '{patron_id}' has been removed.")
+                return
+
+        raise ValueError(f"Patron with ID '{patron_id}' not found.")
 class Patron:
     def __init__(self, name, patron_id):
         self._name = name
