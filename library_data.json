@@ -1,0 +1,12 @@
+{
+    "books": [
+        {
+            "title": "Salamuras Tavgadasavali",
+            "author": "Archil Sulakauri",
+            "isbn": "9789941309441",
+            "is_checked_out": false,
+            "type": "PhysicalBook",
+            "num_pages": 258
+        }
+    ]
+}
